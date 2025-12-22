@@ -116,4 +116,73 @@ if config_env() == :prod do
   #     config :swoosh, :api_client, Swoosh.ApiClient.Req
   #
   # See https://hexdocs.pm/swoosh/Swoosh.html#module-installation for details.
+
+  # Configure MinIO/S3 for production
+  config :ex_aws,
+    access_key_id:
+      System.get_env("AWS_ACCESS_KEY_ID") ||
+        raise("environment variable AWS_ACCESS_KEY_ID is missing"),
+    secret_access_key:
+      System.get_env("AWS_SECRET_ACCESS_KEY") ||
+        raise("environment variable AWS_SECRET_ACCESS_KEY is missing"),
+    region: System.get_env("AWS_REGION") || "us-east-1"
+
+  config :typster,
+    s3_bucket:
+      System.get_env("S3_BUCKET") ||
+        raise("environment variable S3_BUCKET is missing"),
+    s3_endpoint: System.get_env("S3_ENDPOINT")
+
+  # Configure S3 endpoint - handle both custom endpoints (MinIO) and standard AWS S3
+  s3_endpoint = System.get_env("S3_ENDPOINT")
+
+  if s3_endpoint do
+    # Custom S3-compatible endpoint (e.g., MinIO)
+    parsed = URI.parse(s3_endpoint)
+    scheme = parsed.scheme || "https"
+    host = parsed.host || parsed.authority || s3_endpoint
+    port = if parsed.port, do: parsed.port, else: nil
+
+    s3_config = [
+      scheme: "#{scheme}://",
+      host: host,
+      path_style: true
+    ]
+
+    s3_config = if port, do: Keyword.put(s3_config, :port, port), else: s3_config
+
+    config :ex_aws, :s3, s3_config
+  else
+    # Standard AWS S3 - no custom endpoint configuration needed
+    # ex_aws will use default AWS S3 endpoints
+  end
+end
+
+# Configure MinIO/S3 for all environments (with defaults for dev/test)
+if config_env() != :prod do
+  config :ex_aws,
+    access_key_id: System.get_env("AWS_ACCESS_KEY_ID") || "minioadmin",
+    secret_access_key: System.get_env("AWS_SECRET_ACCESS_KEY") || "minioadmin",
+    region: System.get_env("AWS_REGION") || "us-east-1"
+
+  s3_endpoint = System.get_env("S3_ENDPOINT") || "http://localhost:9000"
+
+  config :typster,
+    s3_bucket: System.get_env("S3_BUCKET") || "typster-assets",
+    s3_endpoint: s3_endpoint
+
+  parsed = URI.parse(s3_endpoint)
+  scheme = parsed.scheme || "http"
+  host = parsed.host || parsed.authority || "localhost"
+  port = parsed.port
+
+  s3_config = [
+    scheme: "#{scheme}://",
+    host: host,
+    path_style: true
+  ]
+
+  s3_config = if port, do: Keyword.put(s3_config, :port, port), else: s3_config
+
+  config :ex_aws, :s3, s3_config
 end
