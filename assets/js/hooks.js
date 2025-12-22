@@ -16,6 +16,8 @@ export const CodeMirror = {
 
     if (!container) return
 
+    this.previousFileId = fileId
+
     this.editorInstance = initEditor(
       container,
       content,
@@ -28,6 +30,91 @@ export const CodeMirror = {
         updateEditorContent(this.editorInstance, content)
       }
     })
+
+    this.handleEvent("file_changed", ({ file_id, content }) => {
+      const newFileId = file_id || null
+      const newContent = parseContent(content || "")
+
+      if (this.previousFileId !== newFileId) {
+        this.previousFileId = newFileId
+        this.cleanupThemeHandlers()
+        if (this.editorInstance) {
+          destroyEditor(this.editorInstance)
+        }
+        this.editorInstance = initEditor(
+          container,
+          newContent,
+          this.liveSocket || window.liveSocket,
+          newFileId
+        )
+        this.setupThemeHandlers()
+      } else if (this.editorInstance) {
+        updateEditorContent(this.editorInstance, newContent)
+      }
+    })
+
+    this.themeChangeHandler = () => {
+      if (this.editorInstance && this.editorInstance.updateTheme) {
+        this.editorInstance.updateTheme()
+      }
+    }
+
+    window.addEventListener("phx:set-theme", this.themeChangeHandler)
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === "attributes" && mutation.attributeName === "data-theme") {
+          if (this.editorInstance && this.editorInstance.updateTheme) {
+            this.editorInstance.updateTheme()
+          }
+        }
+      })
+    })
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"]
+    })
+
+    this.themeObserver = observer
+  },
+
+  setupThemeHandlers() {
+    this.themeChangeHandler = () => {
+      if (this.editorInstance && this.editorInstance.updateTheme) {
+        this.editorInstance.updateTheme()
+      }
+    }
+
+    window.addEventListener("phx:set-theme", this.themeChangeHandler)
+
+    const observer = new MutationObserver((mutations) => {
+      mutations.forEach((mutation) => {
+        if (mutation.type === "attributes" && mutation.attributeName === "data-theme") {
+          if (this.editorInstance && this.editorInstance.updateTheme) {
+            this.editorInstance.updateTheme()
+          }
+        }
+      })
+    })
+
+    observer.observe(document.documentElement, {
+      attributes: true,
+      attributeFilter: ["data-theme"]
+    })
+
+    this.themeObserver = observer
+  },
+
+  cleanupThemeHandlers() {
+    if (this.themeChangeHandler) {
+      window.removeEventListener("phx:set-theme", this.themeChangeHandler)
+      this.themeChangeHandler = null
+    }
+    if (this.themeObserver) {
+      this.themeObserver.disconnect()
+      this.themeObserver = null
+    }
   },
 
   updated() {
@@ -35,20 +122,42 @@ export const CodeMirror = {
     const newContent = parseContent(rawContent)
     const newFileId = this.el.dataset.fileId || null
 
+    if (this.previousFileId === undefined) {
+      this.previousFileId = newFileId
+    }
+
     if (this.editorInstance) {
-      const currentFileId = this.el.dataset.fileId || null
-      if (currentFileId !== newFileId) {
+      if (this.previousFileId !== newFileId) {
+        this.previousFileId = newFileId
+        this.cleanupThemeHandlers()
         destroyEditor(this.editorInstance)
-        this.mounted()
+        const container = this.el
+        this.editorInstance = initEditor(
+          container,
+          newContent,
+          this.liveSocket || window.liveSocket,
+          newFileId
+        )
+        this.setupThemeHandlers()
       } else {
         updateEditorContent(this.editorInstance, newContent)
       }
     } else if (newFileId) {
-      this.mounted()
+      this.previousFileId = newFileId
+      this.cleanupThemeHandlers()
+      const container = this.el
+      this.editorInstance = initEditor(
+        container,
+        newContent,
+        this.liveSocket || window.liveSocket,
+        newFileId
+      )
+      this.setupThemeHandlers()
     }
   },
 
   destroyed() {
+    this.cleanupThemeHandlers()
     if (this.editorInstance) {
       destroyEditor(this.editorInstance)
       this.editorInstance = null

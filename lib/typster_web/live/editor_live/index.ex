@@ -66,6 +66,7 @@ defmodule TypsterWeb.EditorLive.Index do
      socket
      |> assign(:current_file, file)
      |> assign(:content, file.content || "")
+     |> push_event("file_changed", %{file_id: file_id, content: file.content || ""})
      |> push_event("content_updated", %{content: file.content || ""})}
   end
 
@@ -80,6 +81,7 @@ defmodule TypsterWeb.EditorLive.Index do
          |> assign(:file_tree, file_tree)
          |> assign(:current_file, file)
          |> assign(:content, content)
+         |> push_event("file_changed", %{file_id: file.id, content: content})
          |> push_event("content_updated", %{content: content})}
 
       {:error, _changeset} ->
