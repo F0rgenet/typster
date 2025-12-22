@@ -65,7 +65,11 @@ defmodule Typster.MixProject do
       {:gettext, "~> 0.26"},
       {:jason, "~> 1.2"},
       {:dns_cluster, "~> 0.2.0"},
-      {:bandit, "~> 1.5"}
+      {:bandit, "~> 1.5"},
+      {:oban, "~> 2.17"},
+      {:ex_aws, "~> 2.5"},
+      {:ex_aws_s3, "~> 2.5"},
+      {:hackney, "~> 1.20"}
     ]
   end
 
@@ -82,10 +86,11 @@ defmodule Typster.MixProject do
       "ecto.reset": ["ecto.drop", "ecto.setup"],
       test: ["ecto.create --quiet", "ecto.migrate --quiet", "test"],
       "assets.setup": ["tailwind.install --if-missing", "esbuild.install --if-missing"],
-      "assets.build": ["tailwind typster", "esbuild typster"],
+      "assets.build": ["tailwind typster", "esbuild typster", "esbuild typster_worker"],
       "assets.deploy": [
         "tailwind typster --minify",
         "esbuild typster --minify",
+        "esbuild typster_worker --minify",
         "phx.digest"
       ],
       precommit: ["compile --warning-as-errors", "deps.unlock --unused", "format", "test"]

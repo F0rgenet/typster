@@ -12,8 +12,7 @@ defmodule Typster.Application do
       Typster.Repo,
       {DNSCluster, query: Application.get_env(:typster, :dns_cluster_query) || :ignore},
       {Phoenix.PubSub, name: Typster.PubSub},
-      # Start a worker by calling: Typster.Worker.start_link(arg)
-      # {Typster.Worker, arg},
+      {Oban, Application.get_env(:typster, Oban)},
       # Start to serve requests, typically the last entry
       TypsterWeb.Endpoint
     ]
