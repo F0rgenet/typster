@@ -1,0 +1,19 @@
+{
+  "name": "assets",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "dependencies": {
+    "@codemirror/commands": "^6.10.1",
+    "@codemirror/lang-markdown": "^6.5.0",
+    "@codemirror/state": "^6.5.2",
+    "@codemirror/view": "^6.39.4",
+    "codemirror": "^6.0.2"
+  }
+}

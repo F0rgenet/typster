@@ -36,7 +36,13 @@ config :esbuild,
   version: "0.25.4",
   typster: [
     args:
-      ~w(js/app.js --bundle --target=es2022 --outdir=../priv/static/assets/js --external:/fonts/* --external:/images/* --alias:@=.),
+      ~w(js/app.js --bundle --target=es2022 --outdir=../priv/static/assets/js --external:/fonts/* --external:/images/* --alias:@=. --format=esm),
+    cd: Path.expand("../assets", __DIR__),
+    env: %{"NODE_PATH" => [Path.expand("../deps", __DIR__), Mix.Project.build_path()]}
+  ],
+  typster_worker: [
+    args:
+      ~w(js/typst_worker_impl.js --bundle --target=es2022 --outdir=../priv/static/assets/js --format=esm),
     cd: Path.expand("../assets", __DIR__),
     env: %{"NODE_PATH" => [Path.expand("../deps", __DIR__), Mix.Project.build_path()]}
   ]
@@ -59,6 +65,12 @@ config :logger, :default_formatter,
 
 # Use Jason for JSON parsing in Phoenix
 config :phoenix, :json_library, Jason
+
+# Configure Oban
+config :typster, Oban,
+  engine: Oban.Engines.Basic,
+  queues: [default: 10],
+  repo: Typster.Repo
 
 # Import environment specific config. This must remain at the bottom
 # of this file so it overrides the configuration defined above.

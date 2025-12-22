@@ -1,0 +1,46 @@
+<Layouts.app flash={@flash}>
+  <div class="space-y-4">
+    <div class="flex justify-between items-center">
+      <h1 class="text-3xl font-bold">Projects</h1>
+      <button
+        phx-click="create_project"
+        phx-value-name="New Project"
+        class="btn btn-primary"
+      >
+        New Project
+      </button>
+    </div>
+
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
+      <div
+        :for={{id, project} <- @streams.projects}
+        id={id}
+        class="card bg-base-100 shadow-xl"
+      >
+        <div class="card-body">
+          <h2 class="card-title">
+            <a href={~p"/projects/#{project.id}"} class="link link-primary">
+              {project.name}
+            </a>
+          </h2>
+          <p class="text-sm text-base-content/60">
+            Created {Calendar.strftime(project.inserted_at, "%B %d, %Y")}
+          </p>
+          <div class="card-actions justify-end">
+            <a href={~p"/projects/#{project.id}/edit"} class="btn btn-sm btn-primary">
+              Edit
+            </a>
+            <button
+              phx-click="delete"
+              phx-value-id={project.id}
+              phx-confirm="Are you sure?"
+              class="btn btn-sm btn-error"
+            >
+              Delete
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layouts.app>

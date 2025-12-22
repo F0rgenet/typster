@@ -1,0 +1,38 @@
+<Layouts.app flash={@flash}>
+  <div class="space-y-4">
+    <div class="flex justify-between items-center">
+      <h1 class="text-3xl font-bold">{@project.name}</h1>
+      <a href={~p"/projects/#{@project.id}/edit"} class="btn btn-primary">
+        Open Editor
+      </a>
+    </div>
+
+    <div class="card bg-base-100 shadow-xl">
+      <div class="card-body">
+        <h2 class="card-title">Files</h2>
+        <div class="space-y-2">
+          <%= if Enum.empty?(@file_tree) do %>
+            <p class="text-base-content/60">
+              No files yet. Open the editor to create your first file.
+            </p>
+          <% else %>
+            <div
+              :for={file <- @file_tree}
+              class="flex items-center justify-between p-2 hover:bg-base-200 rounded"
+            >
+              <span>{file.path}</span>
+              <button
+                phx-click="delete_file"
+                phx-value-id={file.id}
+                phx-confirm="Are you sure?"
+                class="btn btn-sm btn-error"
+              >
+                Delete
+              </button>
+            </div>
+          <% end %>
+        </div>
+      </div>
+    </div>
+  </div>
+</Layouts.app>
