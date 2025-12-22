@@ -1,5 +1,5 @@
 import { initEditor, updateEditorContent, destroyEditor } from "./editor"
-import { initTypstWorker, destroyTypstWorker } from "./typst_worker"
+import { initTypstWorker, destroyTypstWorker, compileTypst } from "./typst_worker"
 import { updatePreview } from "./preview"
 
 function parseContent(content) {
@@ -63,6 +63,21 @@ export const Preview = {
     this.handleEvent("update_preview", ({ svg }) => {
       updatePreview(this.el, svg)
     })
+
+    const editorContainer = document.getElementById("editor-container")
+    if (editorContainer) {
+      const rawContent = editorContainer.dataset.content || ""
+      const content = rawContent.replace(/\\n/g, "\n")
+      if (content) {
+        setTimeout(() => compileTypst(content), 100)
+      }
+    }
+  },
+
+  updated() {
+    if (this.pushEvent) {
+      initTypstWorker(this)
+    }
   },
 
   destroyed() {

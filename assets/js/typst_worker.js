@@ -19,6 +19,8 @@ export function initTypstWorker(hook) {
         if (type === "render") {
           if (typeof pushEvent === "function") {
             pushEvent("update_preview", { svg: data.svg })
+          } else {
+            console.warn("pushEvent not available, preview won't update")
           }
         } else if (type === "error") {
           console.error("Typst compilation error:", data)
@@ -41,7 +43,24 @@ export function initTypstWorker(hook) {
 
 export function compileTypst(content) {
   if (!worker) {
-    initTypstWorker(null)
+    const container = document.getElementById("preview-container")
+    if (container) {
+      const hook = container.__liveSocketHook || null
+      if (hook && typeof hook.pushEvent === "function") {
+        initTypstWorker(hook)
+      } else {
+        initTypstWorker(null)
+      }
+    } else {
+      initTypstWorker(null)
+    }
+  }
+
+  if (!pushEvent && previewContainer) {
+    const hook = previewContainer.__liveSocketHook || null
+    if (hook && typeof hook.pushEvent === "function") {
+      pushEvent = hook.pushEvent.bind(hook)
+    }
   }
 
   if (worker && worker.readyState !== Worker.CLOSED) {
