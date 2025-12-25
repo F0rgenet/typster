@@ -4,7 +4,10 @@
   "service": "app",
   "workspaceFolder": "/workspace",
   "shutdownAction": "stopCompose",
-  "forwardPorts": [4000, 5432],
+  "forwardPorts": [
+    4000,
+    5432
+  ],
   "portsAttributes": {
     "4000": {
       "label": "Phoenix Server",
@@ -37,7 +40,7 @@
       }
     }
   },
-  "postCreateCommand": "mix deps.get && mix assets.setup && mix ecto.setup",
+  "postCreateCommand": "cd /workspace && mix deps.get && mix assets.setup && mix ecto.setup",
   "remoteUser": "root",
   "remoteEnv": {
     "MIX_ENV": "dev",

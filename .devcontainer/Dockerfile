@@ -16,8 +16,7 @@ RUN mix local.hex --force && \
 
 RUN sh -c "$(curl -fsSL https://raw.githubusercontent.com/ohmyzsh/ohmyzsh/master/tools/install.sh)" "" --unattended || true
 
-RUN sed -i 's|ZSH_THEME="robbyrussell"|ZSH_THEME="agnoster"|' /root/.zshrc || true && \
-    echo 'export PATH="$HOME/.mix/escripts:$PATH"' >> /root/.zshrc && \
+RUN echo 'export PATH="$HOME/.mix/escripts:$PATH"' >> /root/.zshrc && \
     echo 'export PATH="$HOME/.local/bin:$PATH"' >> /root/.zshrc && \
     chsh -s /bin/zsh root || true
 
