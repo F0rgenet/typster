@@ -1,0 +1,6 @@
+{
+  "emmet.includeLanguages": {
+    "phoenix-heex": "html"
+  },
+  "workbench.iconTheme": "vscode-icons"
+}
