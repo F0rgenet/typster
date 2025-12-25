@@ -1,0 +1,12 @@
+[workspace]
+authors = ["benzlokzik <121052717+benzlokzik@users.noreply.github.com>"]
+channels = ["conda-forge"]
+name = "workspace"
+platforms = ["linux-aarch64", "linux-64"]
+version = "0.1.0"
+
+[tasks]
+
+[dependencies]
+elixir = ">=1.19.4,<1.20"
+prek = ">=0.2.21,<0.3"

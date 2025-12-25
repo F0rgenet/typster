@@ -35,3 +35,6 @@ typster-*.tar
 npm-debug.log
 /assets/node_modules/
 
+# pixi environments
+.pixi/*
+!.pixi/config.toml
