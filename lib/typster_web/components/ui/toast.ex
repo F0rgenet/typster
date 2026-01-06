@@ -80,8 +80,7 @@ defmodule TypsterWeb.Components.UI.Toast do
       <div class={[
         "w-2 h-2 rounded-full flex-shrink-0 mt-2",
         toast_kind_color(@kind)
-      ]}>
-      </div>
+      ]}></div>
       <div class="flex-1 min-w-0">
         {if @title do %}
           <h4 class="text-sm font-semibold text-gray-900">{@title}</h4>

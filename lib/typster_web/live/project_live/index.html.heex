@@ -1,46 +1,76 @@
 <Layouts.app flash={@flash}>
-  <div class="space-y-4">
-    <div class="flex justify-between items-center">
-      <h1 class="text-3xl font-bold">Projects</h1>
+  <div class="container mx-auto px-4 py-8">
+    <div class="flex justify-between items-center mb-8">
+      <div>
+        <h1 class="text-3xl font-bold text-gray-900">Projects</h1>
+        <p class="text-gray-600 mt-1">Manage and organize your Typst documents</p>
+      </div>
       <button
         phx-click="create_project"
         phx-value-name="New Project"
-        class="btn btn-primary"
+        class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition-colors"
       >
-        New Project
+        <div class="flex items-center gap-2">
+          <.icon name="hero-plus" class="w-4 h-4" /> New Project
+        </div>
       </button>
     </div>
 
-    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4">
-      <div
-        :for={{id, project} <- @streams.projects}
-        id={id}
-        class="card bg-base-100 shadow-xl"
-      >
-        <div class="card-body">
-          <h2 class="card-title">
-            <a href={~p"/projects/#{project.id}"} class="link link-primary">
-              {project.name}
-            </a>
-          </h2>
-          <p class="text-sm text-base-content/60">
-            Created {Calendar.strftime(project.inserted_at, "%B %d, %Y")}
-          </p>
-          <div class="card-actions justify-end">
-            <a href={~p"/projects/#{project.id}/edit"} class="btn btn-sm btn-primary">
-              Edit
-            </a>
-            <button
-              phx-click="delete"
-              phx-value-id={project.id}
-              phx-confirm="Are you sure?"
-              class="btn btn-sm btn-error"
-            >
-              Delete
-            </button>
-          </div>
-        </div>
-      </div>
+    <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+      <%= for {id, project} <- @streams.projects do %>
+        <.card id={id} class="transition-all hover:-translate-y-1 hover:shadow-md">
+          <.card_header>
+            <div class="flex items-start justify-between">
+              <div class="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center">
+                <.icon name="hero-document-text" class="w-6 h-6 text-indigo-600" />
+              </div>
+              <.link
+                navigate={~p"/projects/#{project.id}"}
+                class="text-indigo-600 hover:text-indigo-700 transition-colors"
+              >
+                <.icon name="hero-arrow-up-right" class="w-5 h-5" />
+              </.link>
+            </div>
+            <.card_title class="mt-4">{project.name}</.card_title>
+            <.card_description>
+              Created {Calendar.strftime(project.inserted_at, "%B %d, %Y")}
+            </.card_description>
+          </.card_header>
+          <.card_footer>
+            <div class="flex items-center justify-between">
+              <div class="flex items-center gap-2 text-sm text-gray-600">
+                <.icon name="hero-folder" class="w-4 h-4" />
+                <span>View files</span>
+              </div>
+              <button
+                phx-click="delete"
+                phx-value-id={project.id}
+                phx-confirm="Are you sure you want to delete this project? This action cannot be undone."
+                class="px-3 py-1.5 text-sm font-medium text-red-600 hover:text-red-700 hover:bg-red-50 rounded-md transition-colors"
+              >
+                Delete
+              </button>
+            </div>
+          </.card_footer>
+        </.card>
+      <% end %>
     </div>
+
+    <%= if Enum.empty?(@streams.projects |> Enum.to_list()) do %>
+      <div class="text-center py-12">
+        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
+          <.icon name="hero-folder" class="w-8 h-8 text-gray-400" />
+        </div>
+        <h3 class="text-lg font-semibold text-gray-900 mb-2">No projects yet</h3>
+        <p class="text-gray-600 mb-4">Create your first project to get started</p>
+        <button
+          phx-click="create_project"
+          phx-value-name="My First Project"
+          class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition-colors"
+        >
+          Create Project
+        </button>
+      </div>
+    <% end %>
   </div>
 </Layouts.app>

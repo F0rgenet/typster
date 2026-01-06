@@ -16,9 +16,9 @@ function getCurrentTheme() {
 const lightTheme = EditorView.theme({
   "&": {
     backgroundColor: "#ffffff",
-    color: "#1f2937",
+    color: "#09090b",
     fontSize: "14px",
-    fontFamily: "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace"
+    fontFamily: "'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace"
   },
   ".cm-content": {
     padding: "16px",
@@ -32,63 +32,11 @@ const lightTheme = EditorView.theme({
     height: "100%"
   },
   ".cm-scroller": {
-    fontFamily: "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace"
+    fontFamily: "'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace"
   },
   ".cm-gutters": {
-    backgroundColor: "#f9fafb",
-    color: "#6b7280",
-    border: "none",
-    borderRight: "1px solid #e5e7eb"
-  },
-  ".cm-lineNumbers .cm-gutterElement": {
-    minWidth: "3ch",
-    padding: "0 8px 0 16px"
-  },
-  ".cm-activeLine": {
-    backgroundColor: "#f3f4f6"
-  },
-  ".cm-activeLineGutter": {
-    backgroundColor: "#f3f4f6",
-    color: "#1f2937"
-  },
-  ".cm-selectionMatch": {
-    backgroundColor: "#dbeafe"
-  },
-  "&.cm-focused .cm-selectionBackground": {
-    backgroundColor: "#dbeafe"
-  },
-  ".cm-cursor": {
-    borderLeftColor: "#1f2937"
-  },
-  ".cm-selectionBackground": {
-    backgroundColor: "#dbeafe"
-  }
-})
-
-const darkTheme = EditorView.theme({
-  "&": {
-    backgroundColor: "#272822",
-    color: "#f8f8f2",
-    fontSize: "14px",
-    fontFamily: "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace"
-  },
-  ".cm-content": {
-    padding: "16px",
-    minHeight: "100%",
-    lineHeight: "1.6"
-  },
-  ".cm-focused": {
-    outline: "none"
-  },
-  ".cm-editor": {
-    height: "100%"
-  },
-  ".cm-scroller": {
-    fontFamily: "ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace"
-  },
-  ".cm-gutters": {
-    backgroundColor: "#272822",
-    color: "#75715e",
+    backgroundColor: "#f4f4f5",
+    color: "#a1a1aa",
     border: "none"
   },
   ".cm-lineNumbers .cm-gutterElement": {
@@ -96,23 +44,74 @@ const darkTheme = EditorView.theme({
     padding: "0 8px 0 16px"
   },
   ".cm-activeLine": {
-    backgroundColor: "#3e3d32"
+    backgroundColor: "#fafafa"
   },
   ".cm-activeLineGutter": {
-    backgroundColor: "#3e3d32",
-    color: "#f8f8f2"
+    backgroundColor: "#fafafa",
+    color: "#09090b"
   },
   ".cm-selectionMatch": {
-    backgroundColor: "#49483e"
+    backgroundColor: "rgba(79, 70, 229, 0.2)"
   },
   "&.cm-focused .cm-selectionBackground": {
-    backgroundColor: "#49483e"
+    backgroundColor: "rgba(79, 70, 229, 0.2)"
   },
   ".cm-cursor": {
-    borderLeftColor: "#f8f8f2"
+    borderLeftColor: "#09090b"
   },
   ".cm-selectionBackground": {
-    backgroundColor: "#49483e"
+    backgroundColor: "rgba(79, 70, 229, 0.2)"
+  }
+})
+
+const darkTheme = EditorView.theme({
+  "&": {
+    backgroundColor: "#09090b",
+    color: "#fafafa",
+    fontSize: "14px",
+    fontFamily: "'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace"
+  },
+  ".cm-content": {
+    padding: "16px",
+    minHeight: "100%",
+    lineHeight: "1.6"
+  },
+  ".cm-focused": {
+    outline: "none"
+  },
+  ".cm-editor": {
+    height: "100%"
+  },
+  ".cm-scroller": {
+    fontFamily: "'JetBrains Mono', 'Fira Code', ui-monospace, SFMono-Regular, 'SF Mono', Menlo, Consolas, 'Liberation Mono', monospace"
+  },
+  ".cm-gutters": {
+    backgroundColor: "#18181b",
+    color: "#71717a",
+    border: "none"
+  },
+  ".cm-lineNumbers .cm-gutterElement": {
+    minWidth: "3ch",
+    padding: "0 8px 0 16px"
+  },
+  ".cm-activeLine": {
+    backgroundColor: "#27272a"
+  },
+  ".cm-activeLineGutter": {
+    backgroundColor: "#27272a",
+    color: "#fafafa"
+  },
+  ".cm-selectionMatch": {
+    backgroundColor: "rgba(99, 102, 241, 0.2)"
+  },
+  "&.cm-focused .cm-selectionBackground": {
+    backgroundColor: "rgba(99, 102, 241, 0.2)"
+  },
+  ".cm-cursor": {
+    borderLeftColor: "#fafafa"
+  },
+  ".cm-selectionBackground": {
+    backgroundColor: "rgba(99, 102, 241, 0.2)"
   }
 })
 
