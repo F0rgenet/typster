@@ -17,7 +17,7 @@ defmodule TypsterWeb.Router do
   scope "/", TypsterWeb do
     pipe_through :browser
 
-    live "/", ProjectLive.Index
+    get "/", PageController, :home
     live "/projects", ProjectLive.Index
     live "/projects/:id", ProjectLive.Show
     live "/projects/:id/edit", EditorLive.Index

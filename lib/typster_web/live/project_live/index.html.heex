@@ -55,22 +55,5 @@
         </.card>
       <% end %>
     </div>
-
-    <%= if Enum.empty?(@streams.projects |> Enum.to_list()) do %>
-      <div class="text-center py-12">
-        <div class="w-16 h-16 rounded-full bg-gray-100 flex items-center justify-center mx-auto mb-4">
-          <.icon name="hero-folder" class="w-8 h-8 text-gray-400" />
-        </div>
-        <h3 class="text-lg font-semibold text-gray-900 mb-2">No projects yet</h3>
-        <p class="text-gray-600 mb-4">Create your first project to get started</p>
-        <button
-          phx-click="create_project"
-          phx-value-name="My First Project"
-          class="px-4 py-2 bg-indigo-600 text-white text-sm font-medium rounded-md hover:bg-indigo-700 transition-colors"
-        >
-          Create Project
-        </button>
-      </div>
-    <% end %>
   </div>
 </Layouts.app>
