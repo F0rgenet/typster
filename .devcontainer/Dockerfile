@@ -5,10 +5,13 @@ RUN apt-get update && apt-get install -y \
     curl \
     git \
     inotify-tools \
-    bun \
     postgresql-client \
     zsh \
+    unzip \
     && rm -rf /var/lib/apt/lists/*
+
+ENV BUN_INSTALL=/usr/local
+RUN curl -fsSL https://bun.sh/install | bash
 
 RUN mix local.hex --force && \
     mix local.rebar --force
