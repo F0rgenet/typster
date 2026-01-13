@@ -53,10 +53,8 @@ defmodule TypsterWeb.Layouts do
       </div>
     </header>
 
-    <main class="px-4 py-20 sm:px-6 lg:px-8">
-      <div class="mx-auto max-w-2xl space-y-4">
-        {render_slot(@inner_block)}
-      </div>
+    <main>
+      {render_slot(@inner_block)}
     </main>
 
     <.flash_group flash={@flash} />
@@ -117,7 +115,7 @@ defmodule TypsterWeb.Layouts do
       <div class="absolute w-1/3 h-full rounded-full border-1 border-base-200 bg-base-100 brightness-200 left-0 [[data-theme=light]_&]:left-1/3 [[data-theme=dark]_&]:left-2/3 transition-[left]" />
 
       <button
-        class="flex p-2 cursor-pointer w-1/3"
+        class="flex p-2 w-1/3"
         phx-click={JS.dispatch("phx:set-theme")}
         data-phx-theme="system"
       >
@@ -125,7 +123,7 @@ defmodule TypsterWeb.Layouts do
       </button>
 
       <button
-        class="flex p-2 cursor-pointer w-1/3"
+        class="flex p-2 w-1/3"
         phx-click={JS.dispatch("phx:set-theme")}
         data-phx-theme="light"
       >
@@ -133,7 +131,7 @@ defmodule TypsterWeb.Layouts do
       </button>
 
       <button
-        class="flex p-2 cursor-pointer w-1/3"
+        class="flex p-2 w-1/3"
         phx-click={JS.dispatch("phx:set-theme")}
         data-phx-theme="dark"
       >

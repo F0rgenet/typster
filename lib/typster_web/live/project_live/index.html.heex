@@ -18,7 +18,7 @@
 
     <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
       <%= for {id, project} <- @streams.projects do %>
-        <.card id={id} class="transition-all hover:-translate-y-1 hover:shadow-md">
+        <.card id={id} class="hover:shadow-md">
           <.card_header>
             <div class="flex items-start justify-between">
               <div class="w-12 h-12 rounded-lg bg-indigo-100 flex items-center justify-center">
